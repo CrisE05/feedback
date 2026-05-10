@@ -16,8 +16,12 @@ fi
 ./prof_course.py "$top"/summary/cti/prof_courses.csv > "$top"/mapping/cti/prof_courses.csv
 ./prof_course.py "$top"/summary/is/prof_courses.csv > "$top"/mapping/is/prof_courses.csv
 
-./num_students_per_course "$top"/user/json/ "$top"/mapping/
-./person_email "$top"/user/json/ > "$top"/mapping/user_email.csv
+./num_students_per_course "$top"/user-json/ "$top"/mapping/
+./person_email "$top"/user-json/ > "$top"/mapping/user_email.csv
+./num_students_per_course "$top"/user-sep-json/cti/ "$top"/mapping/cti/
+./person_email "$top"/user-sep-json/cti/ > "$top"/mapping/cti/user_email.csv
+./num_students_per_course "$top"/user-sep-json/is/ "$top"/mapping/is/
+./person_email "$top"/user-sep-json/is/ > "$top"/mapping/is/user_email.csv
 
 ./feedback_course_mapping.py "$top"/summary/raw.csv "$top"/mapping/num_users.csv "$top"/mapping/prof_courses.csv > "$top"/mapping/num_feedbacks/raw.csv
 ./feedback_course_mapping.py "$top"/summary/cti/raw.csv "$top"/mapping/cti/num_users.csv "$top"/mapping/prof_courses.csv > "$top"/mapping/cti/num_feedbacks/raw.csv

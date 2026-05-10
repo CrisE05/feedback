@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if test $# -ne 1; then
+    echo "Usage: $0 <top-level-folder>" 1>&2
+    exit 1
+fi
+
+top="$1"
+if test ! -d "$top"; then
+    echo "Error: Argument $top is not a folder." 1>&2
+    exit 1
+fi
+
+./create_faculty_structure "$top"
+
+for i in 01-ELECTRO 02-ENERG 03-ACS 04-ELECTRONICA 05-FIMM 06-FIIR 07-ISB 08-Transp 09-AERO 10-SIM 11-CHIM 12-FILS 13-FSA 14-FIM 15-FAIMA 16-DPPD; do
+    test -d "$top"/"$i" || mkdir "$top"/"$i"
+    ./create_faculty_structure "$top"/"$i"
+done

@@ -7,17 +7,19 @@ import unicodedata
 
 
 def get_eval(s):
-    if s == "5 - Complet de Acord":
+    if not isinstance(s,str):
+        return s
+    if s.startswith("5"):
         return 5
-    if s == "4 - ...":
+    if s.startswith("4"):
         return 4
-    if s == "3 - ...":
+    if s.startswith("3"):
         return 3
-    if s == "2 - ...":
+    if s.startswith("2"):
         return 2
-    if s == "1 - Deloc de acord":
+    if s.startswith("1"):
         return 1
-    if s == "0 - Nu pot aprecia - Nu se aplica":
+    if s.startswith("0"):
         return 0
 
     return 0
@@ -68,7 +70,7 @@ def average_at_column(csv_data, f, c):
     for line in csv_data:
         if line[c] == "":
             continue
-        n = f(line[c])
+        n = f(get_eval(line[c]))
         if n == 0:
             continue
         s += n
@@ -83,17 +85,17 @@ def min_at_column(csv_data, f, c):
     for i in range(0, len(csv_data)):
         if csv_data[i][c] == "":
             continue
-        if f(csv_data[i][c]) == 0:
+        if f(get_eval(csv_data[i][c])) == 0:
             continue
-        minimum = f(csv_data[i][c])
+        minimum = f(get_eval(csv_data[i][c]))
         break
     for line in csv_data:
         if line[c] == "":
             continue
-        if f(line[c]) == 0:
+        if f(get_eval(line[c])) == 0:
             continue
-        if f(line[c]) < minimum:
-            minimum = f(line[c])
+        if f(get_eval(line[c])) < minimum:
+            minimum = f(get_eval(line[c]))
     return minimum
 
 
@@ -102,13 +104,13 @@ def max_at_column(csv_data, f, c):
     for i in range(0, len(csv_data)):
         if csv_data[i][c] == "":
             continue
-        maximum = f(csv_data[i][c])
+        maximum = f(get_eval(csv_data[i][c]))
         break
     for line in csv_data:
         if line[c] == "":
             continue
-        if f(line[c]) > maximum:
-            maximum = f(line[c])
+        if f(get_eval(line[c])) > maximum:
+            maximum = f(get_eval(line[c]))
     return maximum
 
 
@@ -181,8 +183,10 @@ def gather_data(infd, outfd):
         if line[0].startswith("Obs.:") or line[0] == "":
             break
         else:
+            #print("--->>" + str(line))
             csv_data.append(line)
-
+            
+    # print(csv_data)
     writer = csv.writer(outfd, quoting=csv.QUOTE_ALL)
 
     writer.writerow(get_header(csv_data))

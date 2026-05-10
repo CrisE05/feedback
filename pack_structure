@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if test $# -ne 1; then
+    echo "Usage: $0 <top-level-folder>" 1>&2
+    exit 1
+fi
+
+top="$1"
+if test ! -d "$top"; then
+    echo "Error: Argument $top is not a folder." 1>&2
+    exit 1
+fi
+
+b=$(basename "$top")
+pushd "$top"/.. > /dev/null 2>&1
+zip -r "$b".zip "$b"/xlsx/ "$b"/processed-xlsx/ "$b"/analysis-xlsx/all_*.xlsx
+popd > /dev/null 2>&1

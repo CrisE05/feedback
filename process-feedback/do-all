@@ -12,23 +12,23 @@ if test ! -d "$top"; then
     exit 1
 fi
 
-./separate_acs "$top"/csv/raw/ "$top"/sep/
+#./separate_acs "$top"/csv/raw/ "$top"/sep/
 
 ./make_entire "$top"/csv/raw/ "$top"/csv/entire/
-./make_entire "$top"/sep/cti/raw/ "$top"/sep/cti/entire/
-./make_entire "$top"/sep/is/raw/ "$top"/sep/is/entire/
+./make_entire "$top"/sep-csv/cti/raw/ "$top"/sep-csv/cti/entire/
+./make_entire "$top"/sep-csv/is/raw/ "$top"/sep-csv/is/entire/
 
 ./make_common "$top"/csv/raw/ "$top"/csv/common/
-./make_common "$top"/sep/cti/raw/ "$top"/sep/cti/common/
-./make_common "$top"/sep/is/raw/ "$top"/sep/is/common/
+./make_common "$top"/sep-csv/cti/raw/ "$top"/sep-csv/cti/common/
+./make_common "$top"/sep-csv/is/raw/ "$top"/sep-csv/is/common/
 
 ./make_per_series "$top"/csv/raw/ "$top"/csv/per-series/
-./make_per_series "$top"/sep/cti/raw/ "$top"/sep/cti/per-series/
-./make_per_series "$top"/sep/is/raw/ "$top"/sep/is/per-series/
+./make_per_series "$top"/sep-csv/cti/raw/ "$top"/sep-csv/cti/per-series/
+./make_per_series "$top"/sep-csv/is/raw/ "$top"/sep-csv/is/per-series/
 
 ./make_per_semester "$top"/csv/raw/ "$top"/csv/per-semester/
-./make_per_semester "$top"/sep/cti/raw/ "$top"/sep/cti/per-semester/
-./make_per_semester "$top"/sep/is/raw/ "$top"/sep/is/per-semester/
+./make_per_semester "$top"/sep-csv/cti/raw/ "$top"/sep-csv/cti/per-semester/
+./make_per_semester "$top"/sep-csv/is/raw/ "$top"/sep-csv/is/per-semester/
 
 ./process_folder "$top"/csv/raw/ "$top"/processed/raw/
 ./process_folder "$top"/csv/entire/ "$top"/processed/entire/
@@ -36,17 +36,17 @@ fi
 ./process_folder "$top"/csv/per-series/ "$top"/processed/per-series/
 ./process_folder "$top"/csv/per-semester/ "$top"/processed/per-semester/
 
-./process_folder "$top"/sep/cti/raw/ "$top"/sep-processed/cti/raw/
-./process_folder "$top"/sep/cti/entire/ "$top"/sep-processed/cti/entire/
-./process_folder "$top"/sep/cti/common/ "$top"/sep-processed/cti/common/
-./process_folder "$top"/sep/cti/per-series/ "$top"/sep-processed/cti/per-series/
-./process_folder "$top"/sep/cti/per-semester/ "$top"/sep-processed/cti/per-semester/
+./process_folder "$top"/sep-csv/cti/raw/ "$top"/sep-processed/cti/raw/
+./process_folder "$top"/sep-csv/cti/entire/ "$top"/sep-processed/cti/entire/
+./process_folder "$top"/sep-csv/cti/common/ "$top"/sep-processed/cti/common/
+./process_folder "$top"/sep-csv/cti/per-series/ "$top"/sep-processed/cti/per-series/
+./process_folder "$top"/sep-csv/cti/per-semester/ "$top"/sep-processed/cti/per-semester/
 
-./process_folder "$top"/sep/is/raw/ "$top"/sep-processed/is/raw/
-./process_folder "$top"/sep/is/entire/ "$top"/sep-processed/is/entire/
-./process_folder "$top"/sep/is/common/ "$top"/sep-processed/is/common/
-./process_folder "$top"/sep/is/per-series/ "$top"/sep-processed/is/per-series/
-./process_folder "$top"/sep/is/per-semester/ "$top"/sep-processed/is/per-semester/
+./process_folder "$top"/sep-csv/is/raw/ "$top"/sep-processed/is/raw/
+./process_folder "$top"/sep-csv/is/entire/ "$top"/sep-processed/is/entire/
+./process_folder "$top"/sep-csv/is/common/ "$top"/sep-processed/is/common/
+./process_folder "$top"/sep-csv/is/per-series/ "$top"/sep-processed/is/per-series/
+./process_folder "$top"/sep-csv/is/per-semester/ "$top"/sep-processed/is/per-semester/
 
 ./append_average "$top"/sep-processed/cti/
 ./append_average "$top"/sep-processed/is/

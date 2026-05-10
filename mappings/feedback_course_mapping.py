@@ -33,11 +33,14 @@ def main():
         if not course in num_users.keys():
             sys.stderr.write("Error: Course {} absent.\n".format(course))
             sys.exit(1)
+        if num_users[course] == 0:
+            continue
+        perc = (100.0 * num) / num_users[course]
         res[course] = {
                 "prof": prof_courses[course],
                 "num": num,
                 "users": num_users[course],
-                "perc": (100.0 * num) / num_users[course],
+                "perc": perc,
                 "val": val
                 }
     csvfile.close()

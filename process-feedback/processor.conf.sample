@@ -1,0 +1,9 @@
+[files]
+courses = courses.p
+categories = categories.p
+courses4categories = courses4categories.p
+feedbacks = feedbacks.p
+feedback_contents = feedback_contents/
+users = users/
+processed_courses = processed/courses/
+processed_categories = processed/categories/

@@ -1,0 +1,31 @@
+#!/bin/bash
+
+if test $# -ne 1; then
+    echo "Usage: $0 <top-folder>" 1>&2
+    exit 1
+fi
+
+top="$1"
+
+if test ! -d "$top"; then
+    echo "Error: Folder $top does not exist or is not a folder." 1>&2
+    exit 1
+fi
+
+./extract_average "$top"/processed/entire/ > "$top"/summary/entire.csv
+./extract_average "$top"/processed/per-semester/ > "$top"/summary/per-semester.csv
+./extract_average "$top"/processed/raw/ > "$top"/summary/raw.csv
+sed -n '/^"Titulari Curs"/,/^"Total:"/p' "$top"/processed/entire/all.csv | tail -n +2 | head -n -1 > "$top"/summary/prof.csv
+sed -n '/^"Asisten/,/^"Total:"/p' "$top"/processed/entire/all.csv | tail -n +2 | head -n -1 > "$top"/summary/asist.csv
+for i in "$top"/processed/raw/*.csv; do c="$(basename "$i" .csv)"; cat "$i" | sed -n '/^"Titulari Curs"/,/^"Total:"/p' | tail -n +2 | head -n -1 | sed 's/^/"'"$c"'",/'; done > "$top"/summary/prof_courses.csv
+for i in "$top"/processed/raw/*.csv; do c="$(basename "$i" .csv)"; cat "$i" | sed -n '/^"Asisten/,/^"Total:"/p' | tail -n +2 | head -n -1 | sed 's/^/"'"$c"'",/'; done > "$top"/summary/asist_courses.csv
+
+for f in 01-ELECTRO 02-ENERG 03-ACS 04-ELECTRONICA 05-FIMM 06-FIIR 07-ISB 08-Transp 09-AERO 10-SIM 11-CHIM 12-FILS 13-FSA 14-FIM 15-FAIMA 16-DPPD; do
+    ./extract_average "$top"/"$f"/processed/entire/ > "$top"/"$f"/summary/entire.csv
+    ./extract_average "$top"/"$f"/processed/per-semester/ > "$top"/"$f"/summary/per-semester.csv
+    ./extract_average "$top"/"$f"/processed/raw/ > "$top"/"$f"/summary/raw.csv
+    sed -n '/^"Titulari Curs"/,/^"Total:"/p' "$top"/"$f"/processed/entire/all.csv | tail -n +2 | head -n -1 > "$top"/"$f"/summary/prof.csv
+    sed -n '/^"Asisten/,/^"Total:"/p' "$top"/"$f"/processed/entire/all.csv | tail -n +2 | head -n -1 > "$top"/"$f"/summary/asist.csv
+    for i in "$top"/"$f"/processed/raw/*.csv; do c="$(basename "$i" .csv)"; cat "$i" | sed -n '/^"Titulari Curs"/,/^"Total:"/p' | tail -n +2 | head -n -1 | sed 's/^/"'"$c"'",/'; done > "$top"/"$f"/summary/prof_courses.csv
+    for i in "$top"/"$f"/processed/raw/*.csv; do c="$(basename "$i" .csv)"; cat "$i" | sed -n '/^"Asisten/,/^"Total:"/p' | tail -n +2 | head -n -1 | sed 's/^/"'"$c"'",/'; done > "$top"/"$f"/summary/asist_courses.csv
+done

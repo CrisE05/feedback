@@ -1,0 +1,89 @@
+#!/bin/bash
+
+if test $# -ne 1; then
+    echo "Usage: $0 <top-folder>" 1>&2
+    exit 1
+fi
+
+top="$1"
+
+if test ! -d "$top"; then
+    echo "Error: Folder $top does not exist or is not a folder." 1>&2
+    exit 1
+fi
+
+./sort_prof.py "$top"/summary/prof.csv "$top"/mapping/num_feedbacks/prof.csv > "$top"/analysis/all_prof.csv
+
+./sort_asist.py "$top"/summary/asist.csv > "$top"/analysis/all_asist.csv
+
+./select_prof.py "$top"/analysis/all_prof.csv > "$top"/analysis/select_prof.csv
+
+./select_asist.py "$top"/analysis/all_asist.csv > "$top"/analysis/select_asist.csv
+
+./select_prof_perc_feedback.py "$top"/analysis/select_prof.csv > "$top"/analysis/select_prof_perc_feedback.csv
+
+./sort_courses.py "$top"/mapping/num_feedbacks/raw.csv > "$top"/analysis/all_courses.csv
+
+./select_courses.py "$top"/mapping/num_feedbacks/raw.csv > "$top"/analysis/select_courses.csv
+
+./select_courses_group.py "$top"/analysis/select_courses.csv | (read -r ; echo "$REPLY" ; sort) > "$top"/analysis/select_courses_group.csv
+
+./select_courses_series.py "$top"/analysis/select_courses.csv | (read -r ; echo "$REPLY" ; sort) > "$top"/analysis/select_courses_series.csv
+
+./select_courses_perc_feedback.py "$top"/analysis/select_courses.csv > "$top"/analysis/select_courses_perc_feedback.csv
+
+./analyze_courses_semester.py "$top"/analysis/select_courses.csv | (read -r ; echo "$REPLY" ; sort) > "$top"/analysis/comp_courses_semester.csv
+
+./analyze_courses_series.py "$top"/analysis/select_courses.csv | (read -r ; echo "$REPLY" ; sort) > "$top"/analysis/comp_courses_series.csv
+
+./analyze_courses_common.py "$top"/analysis/select_courses.csv | (read -r ; echo "$REPLY" ; sort) > "$top"/analysis/comp_courses_common.csv
+
+./analyze_courses_zones.py "$top"/analysis/select_courses.csv > "$top"/analysis/zone_courses.csv
+
+./analyze_prof_zones.py "$top"/analysis/select_prof.csv > "$top"/analysis/zone_prof.csv
+
+./analyze_asist_zones.py "$top"/analysis/select_asist.csv > "$top"/analysis/zone_asist.csv
+
+./select_feedback_course_mapping.py "$top"/mapping/num_feedbacks/all.csv > "$top"/analysis/full_courses.csv
+
+./numbers_courses_group.py "$top"/analysis/full_courses.csv > "$top"/analysis/num_courses_group.csv
+
+
+
+for f in 01-ELECTRO 02-ENERG 03-ACS 04-ELECTRONICA 05-FIMM 06-FIIR 07-ISB 08-Transp 09-AERO 10-SIM 11-CHIM 12-FILS 13-FSA 14-FIM 15-FAIMA 16-DPPD; do
+    ./sort_prof.py "$top"/"$f"/summary/prof.csv "$top"/"$f"/mapping/num_feedbacks/prof.csv > "$top"/"$f"/analysis/all_prof.csv
+
+    ./sort_asist.py "$top"/"$f"/summary/asist.csv > "$top"/"$f"/analysis/all_asist.csv
+
+    ./select_prof.py "$top"/"$f"/analysis/all_prof.csv > "$top"/"$f"/analysis/select_prof.csv
+
+    ./select_asist.py "$top"/"$f"/analysis/all_asist.csv > "$top"/"$f"/analysis/select_asist.csv
+
+    ./select_prof_perc_feedback.py "$top"/"$f"/analysis/select_prof.csv > "$top"/"$f"/analysis/select_prof_perc_feedback.csv
+
+    ./sort_courses.py "$top"/"$f"/mapping/num_feedbacks/raw.csv > "$top"/"$f"/analysis/all_courses.csv
+
+    ./select_courses.py "$top"/"$f"/mapping/num_feedbacks/raw.csv > "$top"/"$f"/analysis/select_courses.csv
+
+    ./select_courses_group.py "$top"/"$f"/analysis/select_courses.csv | (read -r ; echo "$REPLY" ; sort) > "$top"/"$f"/analysis/select_courses_group.csv
+
+    ./select_courses_series.py "$top"/"$f"/analysis/select_courses.csv | (read -r ; echo "$REPLY" ; sort) > "$top"/"$f"/analysis/select_courses_series.csv
+
+    ./select_courses_perc_feedback.py "$top"/"$f"/analysis/select_courses.csv > "$top"/"$f"/analysis/select_courses_perc_feedback.csv
+
+    ./analyze_courses_semester.py "$top"/"$f"/analysis/select_courses.csv | (read -r ; echo "$REPLY" ; sort) > "$top"/"$f"/analysis/comp_courses_semester.csv
+
+    ./analyze_courses_series.py "$top"/"$f"/analysis/select_courses.csv | (read -r ; echo "$REPLY" ; sort) > "$top"/"$f"/analysis/comp_courses_series.csv
+
+    ./analyze_courses_common.py "$top"/"$f"/analysis/select_courses.csv | (read -r ; echo "$REPLY" ; sort) > "$top"/"$f"/analysis/comp_courses_common.csv
+
+    ./analyze_courses_zones.py "$top"/"$f"/analysis/select_courses.csv > "$top"/"$f"/analysis/zone_courses.csv
+
+    ./analyze_prof_zones.py "$top"/"$f"/analysis/select_prof.csv > "$top"/"$f"/analysis/zone_prof.csv
+
+    ./analyze_asist_zones.py "$top"/"$f"/analysis/select_asist.csv > "$top"/"$f"/analysis/zone_asist.csv
+
+    ./select_feedback_course_mapping.py "$top"/"$f"/mapping/num_feedbacks/all.csv > "$top"/"$f"/analysis/full_courses.csv
+
+    ./numbers_courses_group.py "$top"/"$f"/analysis/full_courses.csv > "$top"/"$f"/analysis/num_courses_group.csv
+done

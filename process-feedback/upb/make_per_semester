@@ -1,0 +1,41 @@
+#!/bin/bash
+
+if test $# -ne 2; then
+    echo "Usage: $0 <csv-input-folder> <output-per-semester-folder>" 1>&2
+    exit 1
+fi
+
+in="$1"
+out="$2"
+
+if test ! -d "$in"; then
+    echo "Error: Folder $in does not exist or is not a folder." 1>&2
+    exit 1
+fi
+
+if test ! -d "$out"; then
+    echo "Error: Folder $out does not exist or is not a folder." 1>&2
+    exit 1
+fi
+
+for init in "L-A1-S1" "L-A1-S2" "L-A2-S1" "L-A2-S2" "L-A3-S1" "L-A3-S2" "L-A4-S1" "L-A4-S2" "M-A1-S1" "M-A1-S2" "M-A2-S1" "M-A2-S2"; do
+    num=$(ls "$in"/*-"$init"-*.csv 2> /dev/null | wc -l)
+    if test $num -eq 0; then
+        continue
+    fi
+    result="$out"/"$init".csv
+    echo "Creating $result ..."
+    head -1 "$(ls "$in"/*-"$init"-*.csv | head -1)" > "$result"
+    tail -q -n +2 "$in"/*-"$init"-*.csv >> "$result"
+done
+
+for init in "L-A1" "L-A2" "L-A3" "L-A4" "M-A1" "M-A2"; do
+    num=$(ls "$in"/*-"$init"-*.csv 2> /dev/null | wc -l)
+    if test $num -eq 0; then
+        continue
+    fi
+    result="$out"/"$init".csv
+    echo "Creating $result ..."
+    head -1 "$(ls "$in"/*-"$init"-*.csv | head -1)" > "$result"
+    tail -q -n +2 "$in"/*-"$init"-*.csv >> "$result"
+done

@@ -7,8 +7,6 @@ fi
 
 in="$1"
 out="$2"
-cti="$2"/cti/
-is="$2"/is/
 
 if test ! -d "$in"; then
     echo "Error: Folder $in does not exist or is not a folder." 1>&2
@@ -20,62 +18,8 @@ if test ! -d "$out"; then
     exit 1
 fi
 
-if test ! -d "$cti"; then
-    echo "Error: $cti folder does not exist. Please create it beforehand." 1>&2
-    exit 1
-fi
-
-if test ! -d "$is"; then
-    echo "Error: $is subfolder does not exist. Please create it beforehand." 1>&2
-    exit 1
-fi
-
 IFS=$'\n'
 for i in "$in"/*.json; do
     num=$(cat "$i" | jq -r '.[] | [.roles[0].shortname] | @csv' | grep '"student"$' | wc -l)
-    echo "\"$(basename "$i" _users.json)\",\"$num\""
+    echo "\"$(basename "$i" .json)\",\"$num\""
 done > "$out"/num_users.csv
-
-IFS=$'\n'
-for i in "$in"/*.json; do
-    base="$(basename "$i" _users.json)"
-    num=$(cat "$i" | jq -r '.[] | [.roles[0].shortname] | @csv' | grep '"student"$' | wc -l)
-    found=0
-    for series in "CA" "CB" "CC" "CD" "C1" "C2" "C3" "C4" "Tehnologia informaţiei" "CTI" "AAC" "ABD" "eGuv" "G" "GMRV" "IA" "ISI" "MTI" "SAS" "SCPD" "SPF" "SRIC" "SSA" "EGOV"; do
-        if [[ "$base" =~ [LM]-A[1-4]-S[1-2]-.*-"$series"$ ]]; then
-            found=1
-            break
-        fi
-        if [[ "$base" =~ [LM]-A[1-4]-S[1-2]-.*-"$series"- ]]; then
-            if ! [[ "$base" =~ -IS$ ]]; then
-                found=1
-                break
-            fi
-        fi
-    done
-    if test "$found" -ne 0; then
-        echo "\"$(basename "$i" _users.json)\",\"$num\""
-    fi
-done > "$cti"/num_users.csv
-
-IFS=$'\n'
-for i in "$in"/*.json; do
-    base="$(basename "$i" _users.json)"
-    num=$(cat "$i" | jq -r '.[] | [.roles[0].shortname] | @csv' | grep '"student"$' | wc -l)
-    found=0
-    for series in "CA" "CB" "CC" "CD" "C1" "C2" "C3" "C4" "Tehnologia informaţiei" "CTI" "AAC" "ABD" "eGuv" "G" "GMRV" "IA" "ISI" "MTI" "SAS" "SCPD" "SPF" "SRIC" "SSA" "EGOV"; do
-        if [[ "$base" =~ [LM]-A[1-4]-S[1-2]-.*-"$series"$ ]]; then
-            found=1
-            break
-        fi
-        if [[ "$base" =~ [LM]-A[1-4]-S[1-2]-.*-"$series"- ]]; then
-            if ! [[ "$base" =~ -IS$ ]]; then
-                found=1
-                break
-            fi
-        fi
-    done
-    if test "$found" -eq 0; then
-        echo "\"$(basename "$i" _users.json)\",\"$num\""
-    fi
-done > "$is"/num_users.csv

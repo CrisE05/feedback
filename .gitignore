@@ -18,6 +18,8 @@ TAGS
 *.class
 *.jar
 *.pyc
+*.json
+*.csv
 .gdb_history
 peda-session-*.txt
 core

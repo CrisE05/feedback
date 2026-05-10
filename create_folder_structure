@@ -33,6 +33,14 @@ mkdir "$top"/sep
 create_substructure "$top"/sep/cti
 create_substructure "$top"/sep/is
 
+mkdir "$top"/sep-json
+create_substructure "$top"/sep-json/cti
+create_substructure "$top"/sep-json/is
+
+mkdir "$top"/sep-csv
+create_substructure "$top"/sep-csv/cti
+create_substructure "$top"/sep-csv/is
+
 mkdir "$top"/sep-processed
 create_substructure "$top"/sep-processed/cti
 create_substructure "$top"/sep-processed/is
@@ -46,11 +54,7 @@ create_substructure "$top"/sep-xls/is
 create_substructure "$top"/sep-xlsx/cti
 create_substructure "$top"/sep-xlsx/is
 
-mkdir "$top"/sep-processed-xls
-create_substructure "$top"/sep-processed-xls/cti
-create_substructure "$top"/sep-processed-xls/is
-mkdir "$top"/sep-processed-xls/cti/average
-mkdir "$top"/sep-processed-xls/is/average
+create_substructure "$top"/user-json
 
 mkdir "$top"/sep-processed-xlsx
 create_substructure "$top"/sep-processed-xlsx/cti
@@ -65,9 +69,9 @@ mkdir "$top"/summary
 mkdir "$top"/summary/cti
 mkdir "$top"/summary/is
 
-mkdir "$top"/summary-xls
-mkdir "$top"/summary-xls/cti
-mkdir "$top"/summary-xls/is
+mkdir "$top"/summary-xlsx
+mkdir "$top"/summary-xlsx/cti
+mkdir "$top"/summary-xlsx/is
 
 mkdir "$top"/summary-xlsx
 mkdir "$top"/summary-xlsx/cti

@@ -1,0 +1,49 @@
+#!/bin/bash
+
+if test $# -ne 1; then
+    echo "Usage: $0 <top-folder>" 1>&2
+    exit 1
+fi
+
+top="$1"
+
+if test ! -d "$top"; then
+    echo "Error: Folder $top does not exist or is not a folder." 1>&2
+    exit 1
+fi
+
+#./separate_acs "$top"/csv/raw/ "$top"/sep/
+
+./make_entire "$top"/csv/raw/ "$top"/csv/entire/
+
+./make_per_semester "$top"/csv/raw/ "$top"/csv/per-semester/
+
+./process_folder "$top"/csv/raw/ "$top"/processed/raw/
+./process_folder "$top"/csv/entire/ "$top"/processed/entire/
+./process_folder "$top"/csv/per-semester/ "$top"/processed/per-semester/
+
+./csv2xlsx "$top"/csv/raw/ "$top"/xlsx/raw/
+./csv2xlsx "$top"/csv/entire/ "$top"/xlsx/entire/
+./csv2xlsx "$top"/csv/per-semester/ "$top"/xlsx/per-semester/
+
+./csv2xlsx "$top"/processed/raw/ "$top"/processed-xlsx/raw/
+./csv2xlsx "$top"/processed/entire/ "$top"/processed-xlsx/entire/
+./csv2xlsx "$top"/processed/per-semester/ "$top"/processed-xlsx/per-semester/
+
+for i in 01-ELECTRO 02-ENERG 03-ACS 04-ELECTRONICA 05-FIMM 06-FIIR 07-ISB 08-Transp 09-AERO 10-SIM 11-CHIM 12-FILS 13-FSA 14-FIM 15-FAIMA 16-DPPD; do
+    ./make_entire "$top"/"$i"/csv/raw/ "$top"/"$i"/csv/entire/
+
+    ./make_per_semester "$top"/"$i"/csv/raw/ "$top"/"$i"/csv/per-semester/
+
+    ./process_folder "$top"/"$i"/csv/raw/ "$top"/"$i"/processed/raw/
+    ./process_folder "$top"/"$i"/csv/entire/ "$top"/"$i"/processed/entire/
+    ./process_folder "$top"/"$i"/csv/per-semester/ "$top"/"$i"/processed/per-semester/
+
+    ./csv2xlsx "$top"/"$i"/csv/raw/ "$top"/"$i"/xlsx/raw/
+    ./csv2xlsx "$top"/"$i"/csv/entire/ "$top"/"$i"/xlsx/entire/
+    ./csv2xlsx "$top"/"$i"/csv/per-semester/ "$top"/"$i"/xlsx/per-semester/
+
+    ./csv2xlsx "$top"/"$i"/processed/raw/ "$top"/"$i"/processed-xlsx/raw/
+    ./csv2xlsx "$top"/"$i"/processed/entire/ "$top"/"$i"/processed-xlsx/entire/
+    ./csv2xlsx "$top"/"$i"/processed/per-semester/ "$top"/"$i"/processed-xlsx/per-semester/
+done

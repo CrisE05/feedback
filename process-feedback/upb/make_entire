@@ -1,0 +1,34 @@
+#!/bin/bash
+
+if test $# -ne 2; then
+    echo "Usage: $0 <csv-input-folder> <output-entire-folder>" 1>&2
+    exit 1
+fi
+
+in="$1"
+out="$2"
+
+if test ! -d "$in"; then
+    echo "Error: Folder $in does not exist or is not a folder." 1>&2
+    exit 1
+fi
+
+if test ! -d "$out"; then
+    echo "Error: Folder $out does not exist or is not a folder." 1>&2
+    exit 1
+fi
+
+result="$out"/L.csv
+echo "Creating $result ..."
+head -1 "$(ls "$in"/*.csv | head -1)" > "$result"
+tail -q -n +2 "$in"/*-L-A*.csv >> "$result"
+
+result="$out"/M.csv
+echo "Creating $result ..."
+head -1 "$(ls "$in"/*.csv | head -1)" > "$result"
+tail -q -n +2 "$in"/*-M-A*.csv >> "$result"
+
+result="$out"/all.csv
+echo "Creating $result ..."
+head -1 "$(ls "$in"/*.csv | head -1)" > "$result"
+tail -q -n +2 "$in"/*.csv >> "$result"

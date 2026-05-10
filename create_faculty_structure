@@ -1,0 +1,40 @@
+#!/bin/bash
+
+if test $# -ne 1; then
+    echo "Usage: $0 <top-level-folder>" 1>&2
+    exit 1
+fi
+
+top="$1"
+if test ! -d "$top"; then
+    echo "Error: Argument $top is not a folder." 1>&2
+    exit 1
+fi
+
+create_substructure()
+{
+    mkdir "$1"
+    mkdir "$1"/raw
+#    mkdir "$1"/common
+    mkdir "$1"/entire
+    mkdir "$1"/per-semester
+#    mkdir "$1"/per-series
+}
+
+create_substructure "$top"/json
+create_substructure "$top"/csv
+create_substructure "$top"/processed
+create_substructure "$top"/xlsx
+create_substructure "$top"/processed-xlsx
+
+create_substructure "$top"/user-json
+
+mkdir "$top"/summary
+mkdir "$top"/summary-xlsx
+
+mkdir "$top"/mapping/
+mkdir "$top"/mapping/num_feedbacks
+mkdir "$top"/mapping/num_users
+
+mkdir "$top"/analysis
+mkdir "$top"/analysis-xlsx

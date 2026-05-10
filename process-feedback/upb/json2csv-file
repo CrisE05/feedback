@@ -1,0 +1,20 @@
+#!/bin/bash
+
+if test $# -ne 1; then
+    echo "Usage: $0 <json-file>" 1>&2
+    exit 1
+fi
+
+in="$1"
+
+get_header()
+{
+    jq '.anonattempts[] | [.responses][0][] | [.name][]' | head -25 | sed 's/<span.*$/"/g' | pr -25 -a -t -s,
+}
+
+json_to_csv()
+{
+    jq '.anonattempts[] | [.responses][][] | [.printval] | @csv' | sed 's/\\"//g' | pr -25 -a -t -s,
+}
+
+(cat "$in" | get_header ; cat "$in" | json_to_csv) | nl -s ',' | sed 's/^[ ]\+\([0-9]\)/1/g'

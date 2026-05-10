@@ -1,0 +1,33 @@
+#!/bin/bash
+
+if test $# -ne 1; then
+    echo "Usage: $0 <top-folder>" 1>&2
+    exit 1
+fi
+
+top="$1"
+
+if test ! -d "$top"; then
+    echo "Error: Folder $top does not exist or is not a folder." 1>&2
+    exit 1
+fi
+
+./prof_course.py "$top"/summary/prof_courses.csv > "$top"/mapping/prof_courses.csv
+
+./num_students_per_course "$top"/user-json/raw/ "$top"/mapping/
+./person_email "$top"/user-json/raw/ > "$top"/mapping/user_email.csv
+
+./feedback_course_mapping.py "$top"/summary/raw.csv "$top"/mapping/num_users.csv "$top"/mapping/prof_courses.csv > "$top"/mapping/num_feedbacks/raw.csv
+
+./full_feedback_course_mapping.py "$top"/summary/raw.csv "$top"/mapping/num_users.csv > "$top"/mapping/num_feedbacks/all.csv
+
+for f in 01-ELECTRO 02-ENERG 03-ACS 04-ELECTRONICA 05-FIMM 06-FIIR 07-ISB 08-Transp 09-AERO 10-SIM 11-CHIM 12-FILS 13-FSA 14-FIM 15-FAIMA 16-DPPD; do
+    ./prof_course.py "$top"/"$f"/summary/prof_courses.csv > "$top"/"$f"/mapping/prof_courses.csv
+
+    ./num_students_per_course "$top"/"$f"/user-json/raw/ "$top"/"$f"/mapping/
+    ./person_email "$top"/"$f"/user-json/raw/ > "$top"/"$f"/mapping/user_email.csv
+
+    ./feedback_course_mapping.py "$top"/"$f"/summary/raw.csv "$top"/"$f"/mapping/num_users.csv "$top"/"$f"/mapping/prof_courses.csv > "$top"/"$f"/mapping/num_feedbacks/raw.csv
+
+    ./full_feedback_course_mapping.py "$top"/"$f"/summary/raw.csv "$top"/"$f"/mapping/num_users.csv > "$top"/"$f"/mapping/num_feedbacks/all.csv
+done

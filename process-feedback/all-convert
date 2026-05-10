@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if test $# -ne 1; then
+    echo "Usage: $0 <top-folder>" 1>&2
+    exit 1
+fi
+
+top="$1"
+
+if test ! -d "$top"; then
+    echo "Error: Folder $top does not exist or is not a folder." 1>&2
+    exit 1
+fi
+
+./csv2xlsx "$top"/summary "$top"/summary-xlsx
+./csv2xlsx "$top"/summary/cti "$top"/summary-xlsx/cti
+./csv2xlsx "$top"/summary/is "$top"/summary-xlsx/is
+
+./csv2xlsx "$top"/analysis "$top"/analysis-xlsx
+./csv2xlsx "$top"/analysis/cti "$top"/analysis-xlsx/cti
+./csv2xlsx "$top"/analysis/is "$top"/analysis-xlsx/is

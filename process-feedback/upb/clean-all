@@ -13,13 +13,7 @@ if test ! -d "$top"; then
 fi
 
 rm -f "$top"/csv/entire/*
-rm -f "$top"/csv/common/*
-rm -f "$top"/csv/per-series/*
 rm -f "$top"/csv/per-semester/*
 
 find "$top"/xlsx -type f -delete
-find "$top"/sep -type f -delete
-find "$top"/sep-xlsx -type f -delete
 find "$top"/processed-xlsx -type f -delete
-find "$top"/sep-processed -type f -delete
-find "$top"/sep-processed-xlsx -type f -delete

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if test $# -ne 2; then
+    echo "Usage: $0 <json-folder> <csv-folder>" 1>&2
+    exit 1
+fi
+
+in="$1"
+out="$2"
+
+a=("$in"/*.json)
+for i in "${a[@]}"; do
+    echo "Converting $i ..."
+    ./json2csv-file "$i" > "$out"/"$(basename "$i" .json)".csv
+done
