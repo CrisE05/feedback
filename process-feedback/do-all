@@ -63,17 +63,17 @@ fi
 ./csv2xlsx "$top"/processed/per-series/ "$top"/processed-xlsx/per-series/
 ./csv2xlsx "$top"/processed/per-semester/ "$top"/processed-xlsx/per-semester/
 
-./csv2xlsx "$top"/sep-csv/cti/raw/ "$top"/sep-xlsx/cti/raw/
-./csv2xlsx "$top"/sep-csv/cti/entire/ "$top"/sep-xlsx/cti/entire/
-./csv2xlsx "$top"/sep-csv/cti/common/ "$top"/sep-xlsx/cti/common/
-./csv2xlsx "$top"/sep-csv/cti/per-series/ "$top"/sep-xlsx/cti/per-series/
-./csv2xlsx "$top"/sep-csv/cti/per-semester/ "$top"/sep-xlsx/cti/per-semester/
+./csv2xlsx "$top"/sep/cti/raw/ "$top"/sep-xlsx/cti/raw/
+./csv2xlsx "$top"/sep/cti/entire/ "$top"/sep-xlsx/cti/entire/
+./csv2xlsx "$top"/sep/cti/common/ "$top"/sep-xlsx/cti/common/
+./csv2xlsx "$top"/sep/cti/per-series/ "$top"/sep-xlsx/cti/per-series/
+./csv2xlsx "$top"/sep/cti/per-semester/ "$top"/sep-xlsx/cti/per-semester/
 
-./csv2xlsx "$top"/sep-csv/is/raw/ "$top"/sep-xlsx/is/raw/
-./csv2xlsx "$top"/sep-csv/is/entire/ "$top"/sep-xlsx/is/entire/
-./csv2xlsx "$top"/sep-csv/is/common/ "$top"/sep-xlsx/is/common/
-./csv2xlsx "$top"/sep-csv/is/per-series/ "$top"/sep-xlsx/is/per-series/
-./csv2xlsx "$top"/sep-csv/is/per-semester/ "$top"/sep-xlsx/is/per-semester/
+./csv2xlsx "$top"/sep/is/raw/ "$top"/sep-xlsx/is/raw/
+./csv2xlsx "$top"/sep/is/entire/ "$top"/sep-xlsx/is/entire/
+./csv2xlsx "$top"/sep/is/common/ "$top"/sep-xlsx/is/common/
+./csv2xlsx "$top"/sep/is/per-series/ "$top"/sep-xlsx/is/per-series/
+./csv2xlsx "$top"/sep/is/per-semester/ "$top"/sep-xlsx/is/per-semester/
 
 ./csv2xlsx "$top"/sep-processed/cti/raw/ "$top"/sep-processed-xlsx/cti/raw/
 ./csv2xlsx "$top"/sep-processed/cti/entire/ "$top"/sep-processed-xlsx/cti/entire/
